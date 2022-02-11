@@ -5300,25 +5300,47 @@
             var shareToCopyWriting = 'Temukan "' + product.name + '" dengan harga ' + this.convertPriceValue(variant.price) + ' di toko ' + businessName.slice(0, 64);
             this.metaTagService.addTags([{
               name: 'url',
-              property: 'og:url',
               content: productLinkRoot + '/' + productLink
             }, {
+              name: 'description',
+              content: 'How to use Angular 4 meta service'
+            }, {
+              name: 'author',
+              content: 'talkingdotnet'
+            }, {
+              name: 'keywords',
+              content: 'Angular, Meta Service'
+            }]);
+            this.metaTagService.updateTag({
+              name: 'url',
+              property: 'og:url',
+              content: productLinkRoot + '/' + productLink
+            });
+            this.metaTagService.updateTag({
               name: 'type',
               property: 'og:type',
               content: product === null || product === void 0 ? void 0 : product.category
-            }, {
+            });
+            this.metaTagService.updateTag({
+              name: 'type',
+              property: 'og:type',
+              content: product === null || product === void 0 ? void 0 : product.category
+            });
+            this.metaTagService.updateTag({
               name: 'title',
               property: 'og:title',
               content: shareToCopyWriting
-            }, {
+            });
+            this.metaTagService.updateTag({
               name: 'description',
               property: 'og:description',
               content: shareToCopyWriting
-            }, {
+            });
+            this.metaTagService.updateTag({
               name: 'image',
               property: 'og:image',
               content: (_a = product === null || product === void 0 ? void 0 : product.images[0]) === null || _a === void 0 ? void 0 : _a.url
-            }]);
+            });
             this.titleService.setTitle(shareToCopyWriting); // this.metaTagService.updateTag(
             //     { name: 'description', content: this.shareToCopyWriting }
             // );
