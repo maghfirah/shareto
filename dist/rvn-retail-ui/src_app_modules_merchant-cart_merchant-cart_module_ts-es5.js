@@ -2931,7 +2931,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementStart"](24, "input", 28);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵlistener"]("change", function MerchantCartListComponent_ng_template_1_ng_container_0_div_14_div_1_Template_input_change_24_listener($event) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵlistener"]("input", function MerchantCartListComponent_ng_template_1_ng_container_0_div_14_div_1_Template_input_input_24_listener($event) {
             var restoredCtx = _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵrestoreView"](_r14);
 
             var i2_r11 = restoredCtx.index;
@@ -3416,29 +3416,26 @@
           }
         }, {
           key: "updateCartProduct",
-          value: function updateCartProduct(index, index2, productId, quantity) {
+          value: function updateCartProduct(index, index2, productId, q) {
             return (0, tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-              var stock, minimum;
+              var _this$checkQuantity, quantity, stock, minimum;
+
               return regeneratorRuntime.wrap(function _callee14$(_context14) {
                 while (1) {
                   switch (_context14.prev = _context14.next) {
                     case 0:
-                      stock = this.cart.cartItems[index].items[index2].stock;
-                      minimum = this.cart.cartItems[index].items[index2].minimumOrder;
-                      quantity = parseInt(quantity);
-                      quantity = quantity < minimum ? minimum : quantity;
-                      quantity = quantity > stock ? stock : quantity;
-                      _context14.prev = 5;
+                      _this$checkQuantity = this.checkQuantity(index, index2, q), quantity = _this$checkQuantity.quantity, stock = _this$checkQuantity.stock, minimum = _this$checkQuantity.minimum;
+                      _context14.prev = 1;
 
                       if (!(quantity >= minimum && quantity <= stock)) {
-                        _context14.next = 12;
+                        _context14.next = 8;
                         break;
                       }
 
-                      _context14.next = 9;
+                      _context14.next = 5;
                       return this.updateCart(productId, quantity);
 
-                    case 9:
+                    case 5:
                       this.cart.cartItems[index].items[index2].quantity = quantity;
                       this.cart.cartItems[index].totalPrice = this.cart.cartItems[index].items.reduce(function (total, item) {
                         return total + item.quantity * item.price;
@@ -3449,20 +3446,20 @@
                         }, 0);
                       }, 0);
 
-                    case 12:
-                      _context14.next = 16;
+                    case 8:
+                      _context14.next = 12;
                       break;
 
-                    case 14:
-                      _context14.prev = 14;
-                      _context14.t0 = _context14["catch"](5);
+                    case 10:
+                      _context14.prev = 10;
+                      _context14.t0 = _context14["catch"](1);
 
-                    case 16:
+                    case 12:
                     case "end":
                       return _context14.stop();
                   }
                 }
-              }, _callee14, this, [[5, 14]]);
+              }, _callee14, this, [[1, 10]]);
             }));
           }
         }, {
@@ -3605,7 +3602,25 @@
         }, {
           key: "onChangeQuantiy",
           value: function onChangeQuantiy(e, index, index2, productId) {
-            this.updateCartProduct(index, index2, productId, e.target.value);
+            var _this$checkQuantity2 = this.checkQuantity(index, index2, e.target.value),
+                quantity = _this$checkQuantity2.quantity;
+
+            e.target.value = quantity;
+            this.updateCartProduct(index, index2, productId, quantity);
+          }
+        }, {
+          key: "checkQuantity",
+          value: function checkQuantity(index, index2, value) {
+            var stock = this.cart.cartItems[index].items[index2].stock;
+            var minimum = this.cart.cartItems[index].items[index2].minimumOrder;
+            var quantity = parseInt(value);
+            quantity = quantity < minimum ? minimum : quantity;
+            quantity = quantity > stock ? stock : quantity;
+            return {
+              quantity: quantity,
+              stock: stock,
+              minimum: minimum
+            };
           }
         }, {
           key: "btnCheckoutCart",
@@ -3634,7 +3649,7 @@
         },
         decls: 3,
         vars: 2,
-        consts: [[4, "ngIf", "ngIfElse"], ["loaded", ""], [1, "center"], ["role", "status", 1, "spinner-border", "text-primary", "spinner-sm", "mr-5"], [4, "ngIf"], [1, "max-screen-sm", "mx-auto"], [1, "pt-3"], [1, "col-12", "text-center"], ["id", "backButton", "type", "button", 1, "btn", "float-left", "pt-1", 3, "click"], [1, "fas", "fa-arrow-left"], [1, "text-center", 2, "font-size", "16px", "font-weight", "bold"], ["id", "cartButton", "type", "button", 1, "btn", "float-right", "pt-1", 3, "click"], [1, "fas", "fa-store"], [1, "row", "px-3", 2, "flex", "1 0 auto"], [1, "col"], [2, "padding-bottom", "100px"], [4, "ngFor", "ngForOf"], ["class", "row mt-4", 4, "ngIf"], ["class", "justify-content-center center", 4, "ngIf"], [1, "row"], [1, "col-3", "mb-auto", "mt-auto"], ["alt", "", 2, "height", "95%", "width", "95%", 3, "src"], [1, "col-9", "mb-auto", "mt-auto"], [1, "col", "pl-2"], [1, "row", "align-items-end", "mb-auto", "mt-3"], [1, "col", "d-flex", "qty"], [1, "plus", 3, "disabled", "click"], [1, "fas", "fa-minus"], ["type", "number", 1, "count", 3, "value", "change"], [1, "minus", 3, "disabled", "click"], [1, "fas", "fa-plus"], [1, "btn", "p-0", "float-right", 3, "click"], [1, "far", "fa-trash-alt"], [1, "row", "mt-4"], [1, "bottom-card"], [1, "row", "px-3"], [1, "text-muted"], [1, "text-right"], [1, "col-12", "mt-3"], [1, "w-100"], [1, "responsive-layout--button-action", "justify-content-end", "w-100"], ["id", "addChart", "type", "button", 1, "btn", "btn-primary", "mb-3", 2, "width", "100%", 3, "disabled", "click"], [1, "justify-content-center", "center"], [1, "mb-3"], ["type", "button", 1, "btn", "btn-primary", 3, "click"]],
+        consts: [[4, "ngIf", "ngIfElse"], ["loaded", ""], [1, "center"], ["role", "status", 1, "spinner-border", "text-primary", "spinner-sm", "mr-5"], [4, "ngIf"], [1, "max-screen-sm", "mx-auto"], [1, "pt-3"], [1, "col-12", "text-center"], ["id", "backButton", "type", "button", 1, "btn", "float-left", "pt-1", 3, "click"], [1, "fas", "fa-arrow-left"], [1, "text-center", 2, "font-size", "16px", "font-weight", "bold"], ["id", "cartButton", "type", "button", 1, "btn", "float-right", "pt-1", 3, "click"], [1, "fas", "fa-store"], [1, "row", "px-3", 2, "flex", "1 0 auto"], [1, "col"], [2, "padding-bottom", "100px"], [4, "ngFor", "ngForOf"], ["class", "row mt-4", 4, "ngIf"], ["class", "justify-content-center center", 4, "ngIf"], [1, "row"], [1, "col-3", "mb-auto", "mt-auto"], ["alt", "", 2, "height", "95%", "width", "95%", 3, "src"], [1, "col-9", "mb-auto", "mt-auto"], [1, "col", "pl-2"], [1, "row", "align-items-end", "mb-auto", "mt-3"], [1, "col", "d-flex", "qty"], [1, "plus", 3, "disabled", "click"], [1, "fas", "fa-minus"], ["type", "number", 1, "count", 3, "value", "input"], [1, "minus", 3, "disabled", "click"], [1, "fas", "fa-plus"], [1, "btn", "p-0", "float-right", 3, "click"], [1, "far", "fa-trash-alt"], [1, "row", "mt-4"], [1, "bottom-card"], [1, "row", "px-3"], [1, "text-muted"], [1, "text-right"], [1, "col-12", "mt-3"], [1, "w-100"], [1, "responsive-layout--button-action", "justify-content-end", "w-100"], ["id", "addChart", "type", "button", 1, "btn", "btn-primary", "mb-3", 2, "width", "100%", 3, "disabled", "click"], [1, "justify-content-center", "center"], [1, "mb-3"], ["type", "button", 1, "btn", "btn-primary", 3, "click"]],
         template: function MerchantCartListComponent_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵtemplate"](0, MerchantCartListComponent_div_0_Template, 3, 0, "div", 0);

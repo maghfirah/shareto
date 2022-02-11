@@ -3357,9 +3357,9 @@
       /* harmony import */
 
 
-      var _shared_shared_canonical_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
-      /*! ../../../shared/shared/canonical.service */
-      89991);
+      var _shared_service_canonical_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
+      /*! ../../../shared/service/canonical.service */
+      35290);
       /* harmony import */
 
 
@@ -4700,6 +4700,11 @@
       }
 
       var _MerchantProductComponent = /*#__PURE__*/function () {
+        // readonly product$: Observable<Product> = this.activatedRoute.data
+        //     .pipe(
+        //         pluck('product'),
+        //         tap(product => this.setMetaTags(product,product.variants[0]))
+        //     );
         function _MerchantProductComponent(formBuilder, requestService, apiModelTranslatorService, alertService, errorService, activatedRoute, router, validationService, metaTagService, titleService, canonicalService) {
           _classCallCheck(this, _MerchantProductComponent);
 
@@ -4751,20 +4756,27 @@
           key: "ngOnInit",
           value: function ngOnInit() {
             return (0, tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+              var _this6 = this;
+
               return regeneratorRuntime.wrap(function _callee11$(_context11) {
                 while (1) {
                   switch (_context11.prev = _context11.next) {
                     case 0:
-                      _context11.next = 2;
+                      this.activatedRoute.data.subscribe(function (_ref) {
+                        var product = _ref.product;
+
+                        _this6.setMetaTags(product, product.variants[0]);
+                      });
+                      _context11.next = 3;
                       return this.initLoad();
 
-                    case 2:
+                    case 3:
                       this.unwrap(document.querySelector('.content-wrapper'));
                       this.pageName = 'merchant-product';
                       this.canonicalService.setCanonicalURL();
                       this.form();
 
-                    case 6:
+                    case 7:
                     case "end":
                       return _context11.stop();
                   }
@@ -4776,7 +4788,7 @@
           key: "initLoad",
           value: function initLoad() {
             return (0, tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
-              var _this6 = this;
+              var _this7 = this;
 
               return regeneratorRuntime.wrap(function _callee12$(_context12) {
                 while (1) {
@@ -4784,8 +4796,8 @@
                     case 0:
                       _context12.next = 2;
                       return this.activatedRoute.params.subscribe(function (params) {
-                        _this6.merchantLink = params['businessName'];
-                        _this6.productLink = params['product'];
+                        _this7.merchantLink = params['businessName'];
+                        _this7.productLink = params['product'];
                       });
 
                     case 2:
@@ -4794,22 +4806,21 @@
                       return this.getDetailProduct();
 
                     case 5:
-                      this.shareToCopyWriting = 'Temukan "' + this.productDetail.name + '" dengan harga ' + this.convertPriceValue(this.activeVariant.price) + ' di toko ' + this.merchantLink.slice(0, 64);
                       this.productLinkRoot = _environments_environment__WEBPACK_IMPORTED_MODULE_3__.environment.envUrl + "/" + _shared_constant_navigation_constant__WEBPACK_IMPORTED_MODULE_0__.NavigationConstant.ROUTING_RETAIL + '/' + _shared_constant_navigation_constant__WEBPACK_IMPORTED_MODULE_0__.NavigationConstant.ROUTING_MERCHANT + '/' + decodeURI(this.merchantLink) + '/';
                       this.merchantName = this.convertMerchantName(this.productDetail.merchant.name);
-                      this.setMetaTags();
+                      this.shareToCopyWriting = 'Temukan "' + this.productDetail.name + '" dengan harga ' + this.convertPriceValue(this.activeVariant.price) + ' di toko ' + this.merchantLink.slice(0, 64);
                       this.cartId = localStorage.getItem('cart_id_' + this.merchantName);
                       this.isDigitalGoods = this.activeVariant.digitalGoods;
 
                       if (!(this.cartId !== '')) {
-                        _context12.next = 15;
+                        _context12.next = 14;
                         break;
                       }
 
-                      _context12.next = 14;
+                      _context12.next = 13;
                       return this.getCart(this.cartId);
 
-                    case 14:
+                    case 13:
                       if (!this.cart.cartItems.length) {
                         localStorage.removeItem('cart_id_' + this.merchantName);
                       } else {
@@ -4817,7 +4828,7 @@
                         this.isDigitalGoods = this.cart.digitalGoods;
                       }
 
-                    case 15:
+                    case 14:
                     case "end":
                       return _context12.stop();
                   }
@@ -4835,18 +4846,18 @@
         }, {
           key: "checkCart",
           value: function checkCart() {
-            var _this7 = this;
+            var _this8 = this;
 
             this.cartHasVariant = false;
             this.itemInCart = 0;
             this.currentVariantInCart = 0;
             this.cart.cartItems.forEach(function (product) {
               product.items.forEach(function (item) {
-                _this7.itemInCart++;
+                _this8.itemInCart++;
 
-                if (item.uiId === _this7.activeVariant.uiId) {
-                  _this7.cartHasVariant = true;
-                  _this7.currentVariantInCart = item.quantity;
+                if (item.uiId === _this8.activeVariant.uiId) {
+                  _this8.cartHasVariant = true;
+                  _this8.currentVariantInCart = item.quantity;
                 }
               });
             });
@@ -4869,7 +4880,7 @@
           key: "getDetailProduct",
           value: function getDetailProduct() {
             return (0, tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
-              var _this8 = this;
+              var _this9 = this;
 
               var apiGetDetailByLink;
               return regeneratorRuntime.wrap(function _callee13$(_context13) {
@@ -4880,16 +4891,16 @@
                       return _context13.abrupt("return", this.requestService.get(apiGetDetailByLink, null).toPromise().then(function (response) {
                         //harusnya apabila product non aktif jangan berikan response
                         if (response === null) {
-                          _this8.router.navigate([_this8.router.url + '/' + _shared_constant_navigation_constant__WEBPACK_IMPORTED_MODULE_0__.NavigationConstant.ROUTING_MERCHANT_PRODUCT_NOT_FOUND]);
+                          _this9.router.navigate([_this9.router.url + '/' + _shared_constant_navigation_constant__WEBPACK_IMPORTED_MODULE_0__.NavigationConstant.ROUTING_MERCHANT_PRODUCT_NOT_FOUND]);
                         } else {
-                          _this8.productDetail = _this8.apiModelTranslatorService.snakeToCamelCase(response);
-                          _this8.loading = false;
-                          _this8.activeVariant = _this8.productDetail.variants[0];
-                          _this8.variantColor = _this8.activeVariant.color;
-                          _this8.variantStock = _this8.activeVariant.stock;
+                          _this9.productDetail = _this9.apiModelTranslatorService.snakeToCamelCase(response);
+                          _this9.loading = false;
+                          _this9.activeVariant = _this9.productDetail.variants[0];
+                          _this9.variantColor = _this9.activeVariant.color;
+                          _this9.variantStock = _this9.activeVariant.stock;
                         }
                       }, function (error) {
-                        _this8.errorService.getErrorApi(error);
+                        _this9.errorService.getErrorApi(error);
                       }));
 
                     case 2:
@@ -4941,10 +4952,10 @@
         }, {
           key: "changeVariant",
           value: function changeVariant() {
-            var _this9 = this;
+            var _this10 = this;
 
             this.activeVariant = this.productDetail.variants.find(function (variant) {
-              return variant.color === _this9.variantColor;
+              return variant.color === _this10.variantColor;
             });
             this.form();
             this.checkCart();
@@ -4961,13 +4972,13 @@
 
             this.isDigitalGoods = this.activeVariant.digitalGoods;
             this.shareToCopyWriting = 'Temukan "' + this.productDetail.name + '" dengan harga ' + this.convertPriceValue(this.activeVariant.price) + ' di toko ' + this.merchantLink.slice(0, 64);
-            this.setMetaTags();
+            this.setMetaTags(this.productDetail, this.activeVariant);
           }
         }, {
           key: "submitCheckout",
           value: function submitCheckout() {
             return (0, tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-              var _this10 = this;
+              var _this11 = this;
 
               var product, cartVariant, addToCart, isNewCart, updateCart, itemTemp;
               return regeneratorRuntime.wrap(function _callee14$(_context14) {
@@ -5008,7 +5019,7 @@
                       addToCart.item.quantity = this.addChartProduct.get("quantity").value;
                       _context14.next = 21;
                       return this.requestService.post(this.apiAddToCart, null, this.apiModelTranslatorService.camelToSnakeCase(addToCart)).toPromise().then(function (response) {}, function (error) {
-                        _this10.errorService.getErrorApi(error);
+                        _this11.errorService.getErrorApi(error);
                       });
 
                     case 21:
@@ -5034,8 +5045,8 @@
 
                       if (!isNewCart) {
                         updateCart.items.forEach(function (val, index) {
-                          if (val.product_variant_ui_id === _this10.activeVariant.uiId) {
-                            updateCart.items[index].quantity += parseInt(_this10.addChartProduct.get("quantity").value);
+                          if (val.product_variant_ui_id === _this11.activeVariant.uiId) {
+                            updateCart.items[index].quantity += parseInt(_this11.addChartProduct.get("quantity").value);
                           }
                         });
 
@@ -5053,13 +5064,13 @@
                         // response to update cart
                         var dateNow = new Date();
                         dateNow.setMinutes(dateNow.getMinutes() + parseInt(_shared_constant_prop_constant__WEBPACK_IMPORTED_MODULE_6__.PropConstant.COOKIE_CART_ID_TIMEOUT));
-                        localStorage.setItem('cart_id_' + _this10.merchantName, _this10.cartId);
-                        localStorage.setItem("merchantLink", _this10.merchantLink);
-                        localStorage.setItem("merchantName", _this10.merchantName);
+                        localStorage.setItem('cart_id_' + _this11.merchantName, _this11.cartId);
+                        localStorage.setItem("merchantLink", _this11.merchantLink);
+                        localStorage.setItem("merchantName", _this11.merchantName);
 
-                        _this10.router.navigate([_shared_constant_navigation_constant__WEBPACK_IMPORTED_MODULE_0__.NavigationConstant.ROUTING_MERCHANT_CART]);
+                        _this11.router.navigate([_shared_constant_navigation_constant__WEBPACK_IMPORTED_MODULE_0__.NavigationConstant.ROUTING_MERCHANT_CART]);
                       }, function (error) {
-                        _this10.errorService.getErrorApi(error);
+                        _this11.errorService.getErrorApi(error);
                       }));
 
                     case 29:
@@ -5074,7 +5085,7 @@
           key: "getCart",
           value: function getCart(cartId) {
             return (0, tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
-              var _this11 = this;
+              var _this12 = this;
 
               var requestParam;
               return regeneratorRuntime.wrap(function _callee15$(_context15) {
@@ -5089,9 +5100,9 @@
                       }
 
                       return _context15.abrupt("return", this.requestService.get(this.apiCart, requestParam).toPromise().then(function (response) {
-                        _this11.cart = _this11.apiModelTranslatorService.snakeToCamelCase(response);
+                        _this12.cart = _this12.apiModelTranslatorService.snakeToCamelCase(response);
                       }, function (error) {
-                        _this11.errorService.getErrorApi(error);
+                        _this12.errorService.getErrorApi(error);
                       }));
 
                     case 3:
@@ -5214,18 +5225,18 @@
         }, {
           key: "getListInventory",
           value: function getListInventory() {
-            var _this12 = this;
+            var _this13 = this;
 
             this.loadingProduct = true;
             var apiGetProduct = this.apiLinkGetProduct;
             var requestParam = new Map();
             this.requestService.get(apiGetProduct + '/' + decodeURI(this.merchantLink) + _shared_constant_api_constant__WEBPACK_IMPORTED_MODULE_2__.APIConstant.LINK_MERCHANT_PRODUCTS, requestParam).subscribe(function (response) {
-              _this12.productList = _this12.apiModelTranslatorService.snakeToCamelCase(response);
-              _this12.loadingProduct = false;
+              _this13.productList = _this13.apiModelTranslatorService.snakeToCamelCase(response);
+              _this13.loadingProduct = false;
             }, function (error) {
-              _this12.errorService.getErrorApi(error);
+              _this13.errorService.getErrorApi(error);
 
-              _this12.loadingProduct = false;
+              _this13.loadingProduct = false;
             });
           }
         }, {
@@ -5268,47 +5279,49 @@
         }, {
           key: "toDetailClick",
           value: function toDetailClick(e, link) {
-            var _this13 = this;
+            var _this14 = this;
 
             e.stopPropagation();
             var currentUrl = '/' + _shared_constant_navigation_constant__WEBPACK_IMPORTED_MODULE_0__.NavigationConstant.ROUTING_MERCHANT + '/' + decodeURI(this.merchantLink) + '/' + link;
             this.router.navigateByUrl('/', {
               skipLocationChange: true
             }).then(function () {
-              _this13.router.navigate([currentUrl]);
+              _this14.router.navigate([currentUrl]);
             });
           }
         }, {
           key: "setMetaTags",
-          value: function setMetaTags() {
+          value: function setMetaTags(product, variant) {
             var _a;
 
+            var businessName = this.activatedRoute.snapshot.paramMap.get("businessName");
+            var productLink = this.activatedRoute.snapshot.paramMap.get("product");
+            var productLinkRoot = _environments_environment__WEBPACK_IMPORTED_MODULE_3__.environment.envUrl + "/" + _shared_constant_navigation_constant__WEBPACK_IMPORTED_MODULE_0__.NavigationConstant.ROUTING_RETAIL + '/' + _shared_constant_navigation_constant__WEBPACK_IMPORTED_MODULE_0__.NavigationConstant.ROUTING_MERCHANT + '/' + decodeURI(businessName) + '/';
+            var shareToCopyWriting = 'Temukan "' + product.name + '" dengan harga ' + this.convertPriceValue(variant.price) + ' di toko ' + businessName.slice(0, 64);
             this.metaTagService.addTags([{
               name: 'url',
               property: 'og:url',
-              content: this.productLinkRoot + '/' + this.productLink
+              content: productLinkRoot + '/' + productLink
             }, {
               name: 'type',
               property: 'og:type',
-              content: (_a = this.productDetail) === null || _a === void 0 ? void 0 : _a.category
+              content: product === null || product === void 0 ? void 0 : product.category
             }, {
               name: 'title',
               property: 'og:title',
-              content: this.shareToCopyWriting
+              content: shareToCopyWriting
             }, {
               name: 'description',
               property: 'og:description',
-              content: this.shareToCopyWriting
+              content: shareToCopyWriting
             }, {
               name: 'image',
               property: 'og:image',
-              content: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png'
+              content: (_a = product === null || product === void 0 ? void 0 : product.images[0]) === null || _a === void 0 ? void 0 : _a.url
             }]);
-            this.titleService.setTitle(this.shareToCopyWriting);
-            this.metaTagService.updateTag({
-              name: 'description',
-              content: this.shareToCopyWriting
-            });
+            this.titleService.setTitle(shareToCopyWriting); // this.metaTagService.updateTag(
+            //     { name: 'description', content: this.shareToCopyWriting }
+            // );
           }
         }]);
 
@@ -5316,7 +5329,7 @@
       }();
 
       _MerchantProductComponent.ɵfac = function MerchantProductComponent_Factory(t) {
-        return new (t || _MerchantProductComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_16__.FormBuilder), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_service_request_service__WEBPACK_IMPORTED_MODULE_8__.RequestService), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_service_api_model_translator_service__WEBPACK_IMPORTED_MODULE_9__.ApiModelTranslatorService), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_service_alert_service__WEBPACK_IMPORTED_MODULE_10__.AlertService), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_service_error_service__WEBPACK_IMPORTED_MODULE_11__.ErrorService), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_18__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_18__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_service_validation_service__WEBPACK_IMPORTED_MODULE_12__.ValidationService), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_19__.Meta), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_19__.Title), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_shared_canonical_service__WEBPACK_IMPORTED_MODULE_13__.CanonicalService));
+        return new (t || _MerchantProductComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_16__.FormBuilder), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_service_request_service__WEBPACK_IMPORTED_MODULE_8__.RequestService), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_service_api_model_translator_service__WEBPACK_IMPORTED_MODULE_9__.ApiModelTranslatorService), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_service_alert_service__WEBPACK_IMPORTED_MODULE_10__.AlertService), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_service_error_service__WEBPACK_IMPORTED_MODULE_11__.ErrorService), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_18__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_18__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_service_validation_service__WEBPACK_IMPORTED_MODULE_12__.ValidationService), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_19__.Meta), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_19__.Title), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_shared_service_canonical_service__WEBPACK_IMPORTED_MODULE_13__.CanonicalService));
       };
 
       _MerchantProductComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdefineComponent"]({
@@ -5382,7 +5395,7 @@
       /* harmony import */
 
 
-      var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
       /*! @angular/common */
       54364);
       /* harmony import */
@@ -5394,25 +5407,25 @@
       /* harmony import */
 
 
-      var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+      var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
       /*! @angular/router */
       71258);
       /* harmony import */
 
 
-      var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+      var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
       /*! @ng-bootstrap/ng-bootstrap */
       81288);
       /* harmony import */
 
 
-      var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+      var _angular_forms__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
       /*! @angular/forms */
       1707);
       /* harmony import */
 
 
-      var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+      var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
       /*! @ng-select/ng-select */
       36868);
       /* harmony import */
@@ -5436,14 +5449,23 @@
       /* harmony import */
 
 
-      var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+      var _shared_resolver_product_link_resolver__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+      /*! ../../shared/resolver/product-link.resolver */
+      97030);
+      /* harmony import */
+
+
+      var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
       /*! @angular/core */
       2316);
 
       var routes = [{
         path: '',
         component: _merchant_product_merchant_product_component__WEBPACK_IMPORTED_MODULE_0__.MerchantProductComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        resolve: {
+          product: _shared_resolver_product_link_resolver__WEBPACK_IMPORTED_MODULE_4__.ProductLinkResolver
+        }
       }, {
         path: _shared_constant_navigation_constant__WEBPACK_IMPORTED_MODULE_2__.NavigationConstant.ROUTING_MERCHANT_PRODUCT_NOT_FOUND,
         component: _merchant_product_not_found_merchant_product_not_found_component__WEBPACK_IMPORTED_MODULE_3__.MerchantProductNotFoundComponent,
@@ -5458,17 +5480,17 @@
         return new (t || _MerchantModule)();
       };
 
-      _MerchantModule.ɵmod = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineNgModule"]({
+      _MerchantModule.ɵmod = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineNgModule"]({
         type: _MerchantModule
       });
-      _MerchantModule.ɵinj = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineInjector"]({
-        imports: [[_angular_common__WEBPACK_IMPORTED_MODULE_5__.CommonModule, _angular_router__WEBPACK_IMPORTED_MODULE_6__.RouterModule.forChild(routes), _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__.NgbPaginationModule, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.FormsModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__.NgbDropdownModule, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_9__.NgSelectModule, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.ReactiveFormsModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__.NgbTooltipModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__.NgbAccordionModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__.NgbCarouselModule]]
+      _MerchantModule.ɵinj = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjector"]({
+        imports: [[_angular_common__WEBPACK_IMPORTED_MODULE_6__.CommonModule, _angular_router__WEBPACK_IMPORTED_MODULE_7__.RouterModule.forChild(routes), _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbPaginationModule, _angular_forms__WEBPACK_IMPORTED_MODULE_9__.FormsModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbDropdownModule, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_10__.NgSelectModule, _angular_forms__WEBPACK_IMPORTED_MODULE_9__.ReactiveFormsModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbTooltipModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbAccordionModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbCarouselModule]]
       });
 
       (function () {
-        (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵsetNgModuleScope"](_MerchantModule, {
+        (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵsetNgModuleScope"](_MerchantModule, {
           declarations: [_merchant_product_merchant_product_component__WEBPACK_IMPORTED_MODULE_0__.MerchantProductComponent, _merchant_checkout_merchant_checkout_component__WEBPACK_IMPORTED_MODULE_1__.MerchantCheckoutComponent, _merchant_product_not_found_merchant_product_not_found_component__WEBPACK_IMPORTED_MODULE_3__.MerchantProductNotFoundComponent],
-          imports: [_angular_common__WEBPACK_IMPORTED_MODULE_5__.CommonModule, _angular_router__WEBPACK_IMPORTED_MODULE_6__.RouterModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__.NgbPaginationModule, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.FormsModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__.NgbDropdownModule, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_9__.NgSelectModule, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.ReactiveFormsModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__.NgbTooltipModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__.NgbAccordionModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__.NgbCarouselModule]
+          imports: [_angular_common__WEBPACK_IMPORTED_MODULE_6__.CommonModule, _angular_router__WEBPACK_IMPORTED_MODULE_7__.RouterModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbPaginationModule, _angular_forms__WEBPACK_IMPORTED_MODULE_9__.FormsModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbDropdownModule, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_10__.NgSelectModule, _angular_forms__WEBPACK_IMPORTED_MODULE_9__.ReactiveFormsModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbTooltipModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbAccordionModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbCarouselModule]
         });
       })();
       /***/
@@ -5641,10 +5663,91 @@
     },
 
     /***/
-    89991:
-    /*!****************************************************!*\
-      !*** ./src/app/shared/shared/canonical.service.ts ***!
-      \****************************************************/
+    97030:
+    /*!**********************************************************!*\
+      !*** ./src/app/shared/resolver/product-link.resolver.ts ***!
+      \**********************************************************/
+
+    /***/
+    function _(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony export */
+
+
+      __webpack_require__.d(__webpack_exports__, {
+        /* harmony export */
+        "ProductLinkResolver": function ProductLinkResolver() {
+          return (
+            /* binding */
+            _ProductLinkResolver
+          );
+        }
+        /* harmony export */
+
+      });
+      /* harmony import */
+
+
+      var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+      /*! ../../../environments/environment */
+      92340);
+      /* harmony import */
+
+
+      var _constant_api_constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+      /*! ../constant/api.constant */
+      58412);
+      /* harmony import */
+
+
+      var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+      /*! @angular/core */
+      2316);
+      /* harmony import */
+
+
+      var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      /*! @angular/common/http */
+      53882);
+
+      var _ProductLinkResolver = /*#__PURE__*/function () {
+        function _ProductLinkResolver(http) {
+          _classCallCheck(this, _ProductLinkResolver);
+
+          this.http = http;
+          this.apiLinkGetProduct = _environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl + _constant_api_constant__WEBPACK_IMPORTED_MODULE_1__.APIConstant.LINK;
+        }
+
+        _createClass(_ProductLinkResolver, [{
+          key: "resolve",
+          value: function resolve(route, state) {
+            var businessName = route.paramMap.get('businessName');
+            var product = route.paramMap.get('product');
+            var apiGetDetailByLink = this.apiLinkGetProduct + '/' + businessName + _constant_api_constant__WEBPACK_IMPORTED_MODULE_1__.APIConstant.PRODUCT + '/' + product;
+            return this.http.get(apiGetDetailByLink);
+          }
+        }]);
+
+        return _ProductLinkResolver;
+      }();
+
+      _ProductLinkResolver.ɵfac = function ProductLinkResolver_Factory(t) {
+        return new (t || _ProductLinkResolver)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpClient));
+      };
+
+      _ProductLinkResolver.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineInjectable"]({
+        token: _ProductLinkResolver,
+        factory: _ProductLinkResolver.ɵfac,
+        providedIn: 'root'
+      });
+      /***/
+    },
+
+    /***/
+    35290:
+    /*!*****************************************************!*\
+      !*** ./src/app/shared/service/canonical.service.ts ***!
+      \*****************************************************/
 
     /***/
     function _(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
@@ -5692,6 +5795,9 @@
             this.dom.head.appendChild(link);
             link.setAttribute('href', canURL);
           }
+        }, {
+          key: "getProduct",
+          value: function getProduct() {}
         }]);
 
         return _CanonicalService;
